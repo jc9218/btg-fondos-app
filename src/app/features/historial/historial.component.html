@@ -1,0 +1,37 @@
+<h2>📄 Historial de Transacciones</h2>
+
+<table mat-table [dataSource]="(historial$ | async) ?? []" class="mat-elevation-z2">
+
+  <!-- Tipo -->
+  <ng-container matColumnDef="tipo">
+    <th mat-header-cell *matHeaderCellDef> Tipo </th>
+    <td mat-cell *matCellDef="let tx"> {{ tx.tipo }} </td>
+  </ng-container>
+
+  <!-- Fondo -->
+  <ng-container matColumnDef="fondo">
+    <th mat-header-cell *matHeaderCellDef> Fondo </th>
+    <td mat-cell *matCellDef="let tx"> {{ tx.fondo }} </td>
+  </ng-container>
+
+  <!-- Monto -->
+  <ng-container matColumnDef="monto">
+    <th mat-header-cell *matHeaderCellDef> Monto </th>
+    <td mat-cell *matCellDef="let tx"> {{ tx.monto | currency:'COP' }} </td>
+  </ng-container>
+
+  <!-- Fecha -->
+  <ng-container matColumnDef="fecha">
+    <th mat-header-cell *matHeaderCellDef> Fecha </th>
+    <td mat-cell *matCellDef="let tx"> {{ tx.fecha | date:'short' }} </td>
+  </ng-container>
+
+  <!-- Notificación -->
+  <ng-container matColumnDef="notificacion">
+    <th mat-header-cell *matHeaderCellDef> Notificación </th>
+    <td mat-cell *matCellDef="let tx"> {{ tx.notificacion || '-' }} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['tipo', 'fondo', 'monto', 'fecha', 'notificacion']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['tipo', 'fondo', 'monto', 'fecha', 'notificacion'];"></tr>
+</table>

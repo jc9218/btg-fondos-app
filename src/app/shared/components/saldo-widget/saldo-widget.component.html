@@ -1,0 +1,9 @@
+<mat-card class="saldo-card">
+    <mat-card-content>
+      <div class="saldo-info">
+        <span>💰 Saldo actual:</span>
+        <h2>{{ saldo$ | async | currency:'COP' }}</h2>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  

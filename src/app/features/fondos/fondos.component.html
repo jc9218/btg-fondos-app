@@ -1,0 +1,22 @@
+<app-saldo-widget></app-saldo-widget>
+
+<form [formGroup]="metodoForm" class="metodo-form">
+  <label>Método de notificación:</label>
+  <mat-radio-group formControlName="metodo" class="notificacion">
+    <mat-radio-button value="email">Email</mat-radio-button>
+    <mat-radio-button value="sms">SMS</mat-radio-button>
+  </mat-radio-group>
+</form>
+
+<div class="fondos-container">
+  <p *ngIf="cargando">Cargando fondos...</p>
+  <p *ngIf="!cargando && fondos.length === 0">No hay fondos disponibles.</p>
+  <pre>{{ fondos | json }}</pre>
+
+  <app-fondo-card
+    *ngFor="let fondo of fondos"
+    [fondo]="fondo"
+    (suscribir)="suscribir($event)"
+    (cancelar)="cancelar($event)">
+  </app-fondo-card>
+</div>
