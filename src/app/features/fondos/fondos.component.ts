@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
@@ -29,51 +29,60 @@ export class FondosComponent implements OnInit {
     metodoForm!: FormGroup;
     saldo$!: Observable<number>;
     cargando = true;
+    saldoDisponible: number = 0;
 
     constructor(
         private fb: FormBuilder,
         private fondosService: FondosService,
         private usuarioService: UsuarioService,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
+        private cdRef: ChangeDetectorRef
     ) {
         this.saldo$ = this.usuarioService.saldo$;
-     }
+    }
 
     ngOnInit(): void {
         this.metodoForm = this.fb.group({
             metodo: ['email', Validators.required]
         });
 
+        this.saldo$.subscribe(saldo => {
+            this.saldoDisponible = saldo;
+            console.info('saldo', this.saldoDisponible);
+        });
+
         this.fondosService.getFondos().subscribe({
             next: (fondos) => {
                 this.fondos = fondos;
                 this.cargando = false;
-                console.log('Fondos cargados:', fondos, this.cargando);
+                this.cdRef.detectChanges();
             },
             error: (err) => {
                 console.error('Error al obtener fondos:', err);
                 this.cargando = false;
             }
-          });
+        });
     }
 
     suscribir(fondo: Fondo): void {
-        console.log('📥 suscribir() en el componente padre:', fondo);
-
         const metodo = this.metodoForm.value.metodo;
         const resultado = this.usuarioService.suscribir(fondo, metodo);
 
         if (resultado === 'Saldo insuficiente') {
-            this.snackBar.open('❌ Saldo insuficiente', 'Cerrar', { duration: 3000 });
+            this.snackBar.open('Saldo insuficiente', 'Cerrar', { duration: 3000 });
         } else {
-            this.snackBar.open('✅ Suscripción exitosa', 'Cerrar', { duration: 2000 });
+            this.snackBar.open('Suscripción exitosa', 'Cerrar', { duration: 2000 });
         }
     }
 
+    estaSuscrito(fondo: Fondo): boolean {
+        return this.usuarioService.estaSuscrito(fondo);
+    }
+
     cancelar(fondo: Fondo): void {
-        console.log('📥 suscribir() en el componente padre:', fondo);
-        
         this.usuarioService.cancelar(fondo);
-        this.snackBar.open('🧾 Cancelación realizada', 'Cerrar', { duration: 2000 });
+        this.snackBar.open('Cancelación realizada', 'Cerrar', { duration: 2000 });
+
+        this.cdRef.detectChanges();
     }
 }

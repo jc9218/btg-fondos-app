@@ -11,10 +11,21 @@
   </mat-card-content>
 
   <mat-card-actions>
-    <button mat-stroked-button color="primary" (click)="onSuscribir()">
-      Suscribirse
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="onSuscribir()"
+      [disabled]="suscrito || !saldoSuficiente"
+    >
+      {{ suscrito ? "Ya suscrito" : "Suscribirse" }}
     </button>
-    <button mat-stroked-button color="warn" (click)="onCancelar()">
+
+    <button
+      mat-stroked-button
+      color="warn"
+      (click)="onCancelar()"
+      [disabled]="!suscrito"
+    >
       Cancelar
     </button>
   </mat-card-actions>

@@ -14,14 +14,14 @@ export class FondoCardComponent {
     @Input() fondo!: Fondo;
     @Output() suscribir = new EventEmitter<Fondo>();
     @Output() cancelar = new EventEmitter<Fondo>();
+    @Input() suscrito: boolean = false;
+    @Input() saldoSuficiente: boolean = true;
 
     onSuscribir(): void {
-        console.log('✅ onSuscribir ejecutado');
         this.suscribir.emit(this.fondo);
     }
 
     onCancelar(): void {
-        console.log('✅ onCancelar ejecutado');
         this.cancelar.emit(this.fondo);
     }
 }

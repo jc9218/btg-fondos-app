@@ -11,18 +11,26 @@ export class UsuarioService {
     private historial: Transaccion[] = [];
     historial$ = new BehaviorSubject<Transaccion[]>([]);
 
+    private fondosSuscritos = new Set<number>();
+
     suscribir(fondo: Fondo, metodo: 'email' | 'sms'): string | void {
         const saldoActual = this.saldo.value;
         if (saldoActual >= fondo.montoMinimo) {
             this.saldo.next(saldoActual - fondo.montoMinimo);
+            this.fondosSuscritos.add(fondo.id);
             this.agregarTransaccion('Suscripción', fondo, metodo);
         } else {
             return 'Saldo insuficiente';
         }
     }
 
+    estaSuscrito(fondo: Fondo): boolean {
+        return this.fondosSuscritos.has(fondo.id);
+    }
+
     cancelar(fondo: Fondo) {
         this.saldo.next(this.saldo.value + fondo.montoMinimo);
+        this.fondosSuscritos.delete(fondo.id);
         this.agregarTransaccion('Cancelación', fondo);
     }
 
