@@ -40,11 +40,6 @@ src/
 ├── environments/          # Configuraciones de entorno
 ```
 
-### Testing
-```bash
-ng test
-```
-
 ## Build para producción
 ```bash
 ng build --configuration production
