@@ -48,8 +48,10 @@ ng test
 ## Build para producción
 ```bash
 ng build --configuration production
-🛠 Comandos útiles
-Comando	Descripción
+```
+
+## Comandos útiles
+```bash
 npm start	Ejecuta la aplicación en modo desarrollo
 ng build	Compila el proyecto para producción
 ng test	Ejecuta pruebas unitarias (Karma)
