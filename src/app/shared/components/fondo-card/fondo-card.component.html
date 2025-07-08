@@ -10,16 +10,26 @@
     </p>
   </mat-card-content>
 
+  <mat-form-field appearance="outline">
+    <mat-label>Valor a invertir</mat-label>
+    <input
+      matInput
+      type="number"
+      [(ngModel)]="monto"
+      [min]="fondo.montoMinimo"
+      placeholder="Ingrese monto"
+    />
+  </mat-form-field>
+
   <mat-card-actions>
     <button
       mat-stroked-button
       color="primary"
-      (click)="onSuscribir()"
-      [disabled]="suscrito || !saldoSuficiente"
+      (click)="onInvertir()"
+      [disabled]="suscrito || monto < fondo.montoMinimo || !saldoSuficiente"
     >
-      {{ suscrito ? "Ya suscrito" : "Suscribirse" }}
+      Invertir
     </button>
-
     <button
       mat-stroked-button
       color="warn"

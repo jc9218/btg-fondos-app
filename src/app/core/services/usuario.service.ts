@@ -13,12 +13,14 @@ export class UsuarioService {
 
     private fondosSuscritos = new Set<number>();
 
-    suscribir(fondo: Fondo, metodo: 'email' | 'sms'): string | void {
+    suscribirConMonto(fondo: Fondo, monto: number): string | void {
+        if (monto < fondo.montoMinimo) return 'Monto inferior al mínimo';
+
         const saldoActual = this.saldo.value;
-        if (saldoActual >= fondo.montoMinimo) {
-            this.saldo.next(saldoActual - fondo.montoMinimo);
+        if (saldoActual >= monto) {
+            this.saldo.next(saldoActual - monto);
             this.fondosSuscritos.add(fondo.id);
-            this.agregarTransaccion('Suscripción', fondo, metodo);
+            this.agregarTransaccion('Suscripción', fondo, undefined, monto);
         } else {
             return 'Saldo insuficiente';
         }
@@ -34,13 +36,18 @@ export class UsuarioService {
         this.agregarTransaccion('Cancelación', fondo);
     }
 
-    private agregarTransaccion(tipo: 'Suscripción' | 'Cancelación', fondo: Fondo, notificacion?: string) {
+    private agregarTransaccion(
+        tipo: 'Suscripción' | 'Cancelación',
+        fondo: Fondo,
+        notificacion?: string,
+        montoOverride?: number
+    ) {
         const tx: Transaccion = {
             tipo,
             fondo: fondo.nombre,
-            monto: fondo.montoMinimo,
+            monto: montoOverride ?? fondo.montoMinimo,
             fecha: new Date(),
-            notificacion: notificacion as 'email' | 'sms'
+            notificacion: notificacion as 'email' | 'sms',
         };
         this.historial.push(tx);
         this.historial$.next([...this.historial]);

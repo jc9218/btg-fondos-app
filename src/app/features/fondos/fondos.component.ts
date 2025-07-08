@@ -48,7 +48,6 @@ export class FondosComponent implements OnInit {
 
         this.saldo$.subscribe(saldo => {
             this.saldoDisponible = saldo;
-            console.info('saldo', this.saldoDisponible);
         });
 
         this.fondosService.getFondos().subscribe({
@@ -64,16 +63,18 @@ export class FondosComponent implements OnInit {
         });
     }
 
-    suscribir(fondo: Fondo): void {
-        const metodo = this.metodoForm.value.metodo;
-        const resultado = this.usuarioService.suscribir(fondo, metodo);
+    invertir(data: { fondo: Fondo, monto: number }) {
+        const { fondo, monto } = data;
 
-        if (resultado === 'Saldo insuficiente') {
-            this.snackBar.open('Saldo insuficiente', 'Cerrar', { duration: 3000 });
-        } else {
-            this.snackBar.open('Suscripción exitosa', 'Cerrar', { duration: 2000 });
+        if (this.saldoDisponible < monto) {
+            this.snackBar.open('❌ Saldo insuficiente', 'Cerrar', { duration: 3000 });
+            return;
         }
-    }
+
+        this.usuarioService.suscribirConMonto(fondo, monto);
+        this.snackBar.open('✅ Inversión exitosa', 'Cerrar', { duration: 2000 });
+        this.cdRef.detectChanges();
+      }
 
     estaSuscrito(fondo: Fondo): boolean {
         return this.usuarioService.estaSuscrito(fondo);

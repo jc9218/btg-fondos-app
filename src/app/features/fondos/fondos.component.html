@@ -17,7 +17,7 @@
     [fondo]="fondo"
     [suscrito]="estaSuscrito(fondo)"
     [saldoSuficiente]="saldoDisponible >= fondo.montoMinimo"
-    (suscribir)="suscribir($event)"
+    (invertir)="invertir($event)"
     (cancelar)="cancelar($event)"
   >
   </app-fondo-card>
