@@ -1,59 +1,61 @@
 # BtgFondosApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.5.
+Aplicación web desarrollada en Angular como parte de una prueba técnica para la vacante de **Ingeniero de Desarrollo Front-End** en BTG. Esta aplicación permite a los usuarios visualizar fondos de inversión (FPV/FIC), simular suscripciones, cancelar inversiones y consultar su historial.
 
-## Development server
+## Instalación y ejecución
+### Requisitos
+- Node.js v18+
+- Angular CLI v20+
+- Git
 
-To start a local development server, run:
-
+### Pasos para ejecutar localmente
 ```bash
-ng serve
+git clone https://github.com/jc9218/btg-fondos-app.git
+cd btg-fondos-app
+npm install
+npm start
+```
+Luego abre tu navegador en http://localhost:4200
+
+### Funcionalidades
+Visualización de fondos de inversión disponibles
+
+Inversión desde un monto mínimo configurable
+
+Validación de saldo antes de invertir
+
+Cancelación de inversiones
+
+Historial de transacciones con monto, fecha y tipo
+
+Arquitectura modular con componentes standalone
+
+### Estructura del proyecto
+```bash
+src/
+├── app/
+│   ├── core/              # Modelos y servicios
+│   ├── features/          # Páginas principales (Fondos, Historial)
+│   ├── shared/            # Componentes reutilizables
+├── environments/          # Configuraciones de entorno
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
+### Testing
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
+## Build para producción
 ```bash
-ng e2e
+ng build --configuration production
+🛠 Comandos útiles
+Comando	Descripción
+npm start	Ejecuta la aplicación en modo desarrollo
+ng build	Compila el proyecto para producción
+ng test	Ejecuta pruebas unitarias (Karma)
+ng generate	Genera componentes, servicios, etc.
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Recursos
+- [Angular CLI Documentation](https://angular.dev/tools/cli)
+- [Angular Material](https://material.angular.io)
